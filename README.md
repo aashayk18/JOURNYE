@@ -25,7 +25,7 @@ A consistency and lifestyle tracker that helps you track your habits diligently.
 
 ## 🚀 Getting Started 
 
-To get started with JOURNYE, simply visit our [website](https://spendwise-ar.vercel.app/) or download our [app](https://play.google.com/store/apps/details?id=com.ark.spendwise). From there, you can start tracking your daily habits.
+To get started with JOURNYE, simply visit our [website]() or download our [app](). From there, you can start tracking your daily habits.
 
 Simply add a daily budget, and throughout the day whenever you make an expense add it.
 
@@ -40,10 +40,8 @@ Make use of the calendar functionality to access the budget and expenditure reco
 - ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 - ![ReactJS](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=121212)
 - ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) 
-- ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 - ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white)
 - ![MongoDB](https://img.shields.io/badge/MongoDB-4DB33D?style=for-the-badge&logo=mongodb&logoColor=white)
-
 
 ## 💡 Contributing
 
@@ -61,7 +59,7 @@ We welcome contributions from the community to help improve JOURNYE. If you have
 
 If you have any questions or need help with JOURNYE, please contact me at aashayk100@gmail.com
   
-I are always happy to assist you and answer any questions you may have.
+I am always happy to assist you and answer any questions you may have.
 
 ## 👥 Contributors
 
