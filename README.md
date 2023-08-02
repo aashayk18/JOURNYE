@@ -1,7 +1,7 @@
 # JOURNYE
 
 <p align="center">
-<img src="https://github.com/aashayk18/JOURNYE/blob/master/src/assets/JOURNYE-slogan.png" height="400px" width="700px" > 
+<img src="https://github.com/aashayk18/JOURNYE/blob/master/src/assets/JOURNYE-slogan.png" height="400px" width="650px" > 
 </p>  
 
 <h2 align="center">
