@@ -1,0 +1,275 @@
+@import url("https://fonts.googleapis.com/css2?family=Square+Peg&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay-button {
+  position: absolute;
+  right: 1%;
+  top: 2%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 30px;
+  line-height: 0;
+  border: none;
+  background-color: black;
+  font-family: "Ibarra Real Nova", serif;
+  color: white;
+  z-index: 3;
+}
+
+.title {
+  margin-top: 4%;
+  font-family: "Square Peg";
+  font-size: 4rem;
+}
+
+.week {
+  margin-top: 1.5%;
+  font-size: 1.7rem;
+  font-family: "Square Peg";
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 75%;
+  height: 15%;
+}
+.add {
+  height: 60%;
+  width: 10%;
+  color: white;
+  background-color: black;
+  outline: none;
+  border: none;
+  margin-right: 1%;
+}
+
+.add-clicked {
+  height: 60%;
+  width: 10%;
+  color: black;
+  background-color: white;
+  outline: none;
+  border: 1px solid black;
+  margin-right: 1%;
+}
+
+.add:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.tracker {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-header {
+  display: grid;
+  grid-template-columns: 30% 6% 6% 6% 6% 6% 6% 6%;
+  column-gap: 4%;
+  width: 85%;
+  margin-top: 2%;
+  font-size: 1.2rem;
+  font-weight: 350;
+  padding-left: 1%;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  width: 85%;
+  height: 50vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  scroll-snap-type: y mandatory;
+  margin-top: 2%;
+}
+
+.task-item {
+  display: grid;
+  grid-template-columns: 13% 13% 6% 6% 6% 6% 6% 6% 6%;
+  width: 100%;
+  height: 10vh;
+  margin-top: 0.8em;
+  column-gap: 4%;
+  scroll-snap-align: start;
+  font-family: inherit;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4em 0% 0.4em 1%;
+}
+
+.task-item:hover {
+  background-color: rgb(219, 219, 219);
+}
+
+.task-item > input {
+  background-color: inherit;
+  outline: none;
+  border: none;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+  overflow-wrap: break-word;
+}
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.288);
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 4;
+}
+
+.add-task {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 25%;
+  height: 35%;
+  padding: 0% 2.5% 0% 2.5%;
+  border: 1.5px solid black;
+  z-index: 4;
+  text-align: left;
+}
+.task-desc {
+  margin-top: 2%;
+  height: 10%;
+  outline: none;
+  border: 1px solid black;
+}
+
+.task-desc:focus {
+  border: 1.8px solid black;
+}
+.add-button {
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  width: 30%;
+  height: 15%;
+  margin-top: 4%;
+  align-self: center;
+}
+.add-button:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1.5px solid black;
+  overflow: hidden;
+  transform: rotateZ(45deg);
+}
+
+.circle:hover {
+  cursor: pointer;
+}
+
+.one {
+  display: inline-block;
+  width: 12.5px;
+  height: 25px;
+
+  background-color: black;
+}
+
+.two {
+  display: inline-block;
+  width: 12.5px;
+  height: 25px;
+
+  background-color: black;
+}
+
+.del-button {
+  background-color: black;
+  color: white;
+  border: none;
+  outline: none;
+  margin-left: 2%;
+  width: 55%;
+}
+
+.del-button:hover {
+  cursor: pointer;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: center;
+  margin-top: 1%;
+}
+
+.empty > img {
+  height: 300px;
+  width: 300px;
+}
+
+.overlay-list {
+  position: absolute;
+  width: 25%;
+  top: 25%;
+  font-size: 15px;
+  background-color: white;
+  height: 30%;
+  padding: 2%;
+  border: solid 1px black;
+  text-align: left;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a{
+  color: inherit;
+}
+
+
+.link:hover{
+  font-size: 17px;
+}
