@@ -5,7 +5,7 @@
 </p>  
 
 <h2 align="center">
-    A consistency tracker track your daily lifestyle habits!
+    A consistency tracker to track your daily lifestyle habits!
 </h2>
 <h3 align="center">
     Author: <a href="https://github.com/aashayk18">Aashay K.</a>
