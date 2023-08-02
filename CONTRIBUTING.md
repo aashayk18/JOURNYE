@@ -1,6 +1,6 @@
-# Contributing to spendwise.
+# Contributing to JOURNYE
 
-Thank you for your interest in contributing to spendwise.! <br>
+Thank you for your interest in contributing to JOURNYE! <br>
 We welcome contributions from the community to help us improve and expand our application.
 
 ## Prerequisites
