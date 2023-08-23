@@ -5,6 +5,7 @@ import startDayOfWeek from "date-fns/startOfWeek";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
 import empty from "../assets/no-tasks.png";
 import title from "../assets/JOURNYE-slogan.png";
+import ValueSlider from "../components/ValueSlider";
 
 function Home(props) {
   const [tasks, setTasks] = useState([]);
@@ -187,6 +188,7 @@ function Home(props) {
 
   taskItems = Object.keys(taskItemsBySection).map((section) => {
     const sectionTasks = taskItemsBySection[section].map((elem, index) => {
+      
       return (
         <div className="task-item-container" key={elem.id}>
           <div className="task-item">
@@ -221,13 +223,9 @@ function Home(props) {
               defaultValue={elem.fullTask}
             />
             {elem.consistency.map((day, ind) => (
-              <div
-                className="circle"
-                key={ind}
-                onClick={() => {
-                  // Handle circle click here
-                }}
-              ></div>
+              <div className="circle" key={ind}>
+                
+              </div>
             ))}
           </div>
         </div>
