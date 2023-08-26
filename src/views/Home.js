@@ -21,19 +21,22 @@ function Home(props) {
   const [selectedTaskIndex, setSelectedTaskIndex] = useState(null);
   const [selectedDayIndex, setSelectedDayIndex] = useState(null);
   const [selectedCircleIndex, setSelectedCircleIndex] = useState(null);
+  const [selectedCircle, setSelectedCircle] = useState(null);
+  const [circleValues, setCircleValues] = useState([]);
 
-
-  const handleSliderChange = (value) => {
+  const handleSliderChange = (value, taskInde) => {
     setSelectedValue(value);
   };
 
-  const handleCircleClick = (index) => {
-    console.log('Circle clicked with index:', index);
-    setSelectedCircleIndex(index);
+  const handleCircleClick = (taskIndex, dayIndex, circleIndex) => {
+    setSelectedTaskIndex(taskIndex);
+    setSelectedDayIndex(dayIndex);
+    setSelectedCircleIndex(circleIndex);
     setShowSlider(true);
-    console.log('showSlider:', showSlider);
-    console.log('selectedCircleIndex:', selectedCircleIndex);
   };
+  useEffect(() => {
+    localforage.setItem("myTasks", tasks);
+  }, [tasks]);
 
   const addTask = () => {
     let newTasks = tasks.slice();
@@ -153,8 +156,7 @@ function Home(props) {
   }
 
   taskItems = Object.keys(taskItemsBySection).map((section) => {
-    const sectionTasks = taskItemsBySection[section].map((elem, index) => {
-
+    const sectionTasks = taskItemsBySection[section].map((elem, taskIndex) => {
       return (
         <div className="task-item-container" key={elem.id}>
           <div className="task-item">
@@ -188,15 +190,17 @@ function Home(props) {
               }}
               defaultValue={elem.fullTask}
             />
-            {elem.consistency.map((day, ind) => (
-              <div className="circle-container" key={ind}>
+            {elem.consistency.map((day, dayIndex) => (
+              <div className="circle-container" key={dayIndex}>
                 <div
                   className="circle"
                   style={{ borderColor: calculateBorderColor(selectedValue) }}
-                  onClick={() => handleCircleClick(ind)}>
-                  <span className="circle-value" data-value={selectedValue}>{selectedValue}</span>
+                  onClick={() => handleCircleClick(taskIndex, dayIndex, 1)}>
+                  <span className="circle-value" data-value={selectedValue}>
+                    {selectedValue}
+                    </span>
                 </div>
-                {showSlider && ind === selectedCircleIndex ? (
+                {showSlider && selectedTaskIndex === taskIndex && selectedDayIndex === dayIndex && 1 === selectedCircleIndex ? (
                   <div className="slider-container">
                     <Slider
                       value={selectedValue}
