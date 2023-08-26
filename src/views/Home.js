@@ -5,7 +5,7 @@ import startDayOfWeek from "date-fns/startOfWeek";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
 import empty from "../assets/no-tasks.png";
 import title from "../assets/JOURNYE-slogan.png";
-import ValueSlider from "../components/ValueSlider";
+import Slider from "react-slider";
 
 function Home(props) {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +16,24 @@ function Home(props) {
   const [isInfo, setInfo] = useState(false);
   const [isActive, setButtonState] = useState(false);
   const [selectedSection, setSelectedSection] = useState("");
+  const [selectedValue, setSelectedValue] = useState(0);
+  const [showSlider, setShowSlider] = useState(false);
+  const [selectedTaskIndex, setSelectedTaskIndex] = useState(null);
+  const [selectedDayIndex, setSelectedDayIndex] = useState(null);
+  const [selectedCircleIndex, setSelectedCircleIndex] = useState(null);
+
+
+  const handleSliderChange = (value) => {
+    setSelectedValue(value);
+  };
+
+  const handleCircleClick = (index) => {
+    console.log('Circle clicked with index:', index);
+    setSelectedCircleIndex(index);
+    setShowSlider(true);
+    console.log('showSlider:', showSlider);
+    console.log('selectedCircleIndex:', selectedCircleIndex);
+  };
 
   const addTask = () => {
     let newTasks = tasks.slice();
@@ -23,7 +41,7 @@ function Home(props) {
       halfTask: currTasks.halfTask,
       fullTask: currTasks.fullTask,
       section: currTasks.section,
-      consistency: [0, 0, 0, 0, 0, 0, 0], // Initialize consistency array for each day of the week
+      consistency: [0, 0, 0, 0, 0, 0, 0],
       id: newTasks.length,
     };
     newTasks.push(taskObj);
@@ -102,17 +120,15 @@ function Home(props) {
     setInfo(currInfo);
   };
 
-  // Save tasks whenever tasks changes to localStorage
   useEffect(() => {
     localforage.setItem("myTasks", tasks);
   }, [tasks]);
 
-  // Fetch tasks on Component Mount
   useEffect(() => {
     localforage.getItem("myTasks").then(function (val) {
       var curr = new Date();
-      var start = startDayOfWeek(curr, { weekStartsOn: 1 }); // 1 represents Monday as the start of the week
-      var last = lastDayOfWeek(curr, { weekStartsOn: 1 }); // 1 represents Monday as the start of the week
+      var start = startDayOfWeek(curr, { weekStartsOn: 1 });
+      var last = lastDayOfWeek(curr, { weekStartsOn: 1 });
 
       setWeek(start.toDateString() + "-" + last.toDateString());
 
@@ -124,60 +140,10 @@ function Home(props) {
     });
   }, []);
 
-  // let taskItems;
-  // if (tasks != null) {
-  //   taskItems = tasks.map((elem, index) => {
-  //     return (
-  //       <div className="task-item-container" key={elem.id}>
-  //         <div className="task-item">
-  //         {isDel && (
-  //           <button
-  //             className="del-button"
-  //             onClick={() => {
-  //               delTask(elem.id);
-  //             }}
-  //           >
-  //             Delete Goal
-  //           </button>
-  //         )}
-  //           <input
-  //             maxLength={20}
-  //             className="task-name"
-  //             placeholder="Enter progress here"
-  //             onChange={(e) => {
-  //               editHalfTask(e.target.value, elem.id);
-  //             }}
-  //             defaultValue={elem.halfTask}
-  //           />
-  //           <input
-  //             maxLength={20}
-  //             className="task-full"
-  //             placeholder="Enter goal here"
-  //             onChange={(e) => {
-  //               editFullTask(e.target.value, elem.id);
-  //             }}
-  //             defaultValue={elem.fullTask}
-  //           />
-  //           {elem.consistency.map((day, ind) => (
-  //             <div
-  //               className="circle"
-  //               key={ind}
-  //               onClick={() => {
-  //                 // Handle circle click here
-  //               }}
-  //             ></div>
-  //           ))}
-  //         </div>
-  //       </div>
-  //     );
-  //   });
-  // }
-
   let taskItems;
   let taskItemsBySection = {};
 
   if (tasks != null) {
-    // Group tasks by section
     tasks.forEach((elem) => {
       if (!taskItemsBySection[elem.section]) {
         taskItemsBySection[elem.section] = [];
@@ -188,7 +154,7 @@ function Home(props) {
 
   taskItems = Object.keys(taskItemsBySection).map((section) => {
     const sectionTasks = taskItemsBySection[section].map((elem, index) => {
-      
+
       return (
         <div className="task-item-container" key={elem.id}>
           <div className="task-item">
@@ -223,15 +189,40 @@ function Home(props) {
               defaultValue={elem.fullTask}
             />
             {elem.consistency.map((day, ind) => (
-              <div className="circle" key={ind}>
-                
+              <div className="circle-container" key={ind}>
+                <div
+                  className="circle"
+                  style={{ borderColor: calculateBorderColor(selectedValue) }}
+                  onClick={() => handleCircleClick(ind)}>
+                  <span className="circle-value" data-value={selectedValue}>{selectedValue}</span>
+                </div>
+                {showSlider && ind === selectedCircleIndex ? (
+                  <div className="slider-container">
+                    <Slider
+                      value={selectedValue}
+                      min={0}
+                      max={10}
+                      onChange={handleSliderChange}
+                      onAfterChange={(value) => {
+                        setSelectedValue(value);
+                        setShowSlider(false);
+                      }}
+                      className="slider"
+                      thumbClassName="slider-thumb"
+                      renderThumb={(props, state) => (
+                        <div {...props}>
+                          <span className="selected-value">{state.valueNow}</span>
+                        </div>
+                      )}
+                    />
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>
         </div>
       );
     });
-
     return (
       <div key={section}>
         <div className="section-header">{selectedSection || section}</div>
@@ -239,6 +230,20 @@ function Home(props) {
       </div>
     );
   });
+
+  function calculateBorderColor(value) {
+    if (value === 0) {
+      return "#8e8e8e";
+    } else if (value >= 1 && value <= 3) {
+      return "#bddcd9";
+    } else if (value >= 4 && value <= 6) {
+      return "#85afad";
+    } else if (value >= 7 && value <= 9) {
+      return "#4d8281";
+    } else if (value === 10) {
+      return "#155655";
+    }
+  }
 
   const changeSection = (e) => {
     e.preventDefault();
@@ -273,9 +278,6 @@ function Home(props) {
             x
           </button>
           <div className="add-task">
-            {/* Achieved:
-            <br></br>
-            <input className="task-desc" onChange={changeHalfTask}></input> */}
             Section:
             <br></br>
             <select className="section-dropdown" onChange={changeSection}>
