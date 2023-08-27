@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import localforage from "localforage";
 import startDayOfWeek from "date-fns/startOfWeek";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
-import empty from "../assets/no-tasks.png";
+import empty from "../assets/no-goals.png";
 import title from "../assets/JOURNYE-slogan.png";
 import Slider from "react-slider";
 
@@ -18,25 +18,7 @@ function Home(props) {
   const [selectedSection, setSelectedSection] = useState("");
   const [selectedValue, setSelectedValue] = useState(0);
   const [showSlider, setShowSlider] = useState(false);
-  const [selectedTaskIndex, setSelectedTaskIndex] = useState(null);
-  const [selectedDayIndex, setSelectedDayIndex] = useState(null);
-  const [selectedCircleIndex, setSelectedCircleIndex] = useState(null);
-  const [selectedCircle, setSelectedCircle] = useState(null);
-  const [circleValues, setCircleValues] = useState([]);
-
-  const handleSliderChange = (value, taskInde) => {
-    setSelectedValue(value);
-  };
-
-  const handleCircleClick = (taskIndex, dayIndex, circleIndex) => {
-    setSelectedTaskIndex(taskIndex);
-    setSelectedDayIndex(dayIndex);
-    setSelectedCircleIndex(circleIndex);
-    setShowSlider(true);
-  };
-  useEffect(() => {
-    localforage.setItem("myTasks", tasks);
-  }, [tasks]);
+  const [selectedValues, setSelectedValues] = useState(Array(tasks.length).fill(0));
 
   const addTask = () => {
     let newTasks = tasks.slice();
@@ -97,20 +79,33 @@ function Home(props) {
     setButtonState(!isActive);
   };
 
-  const changeHalfTask = (e) => {
-    e.preventDefault();
-    const task = e.target.value;
-    const currFullTask = currTasks.fullTask;
-    const taskObj = { halfTask: task, fullTask: currFullTask };
-    setCurrTasks(taskObj);
-  };
-
   const changeFullTask = (e) => {
     e.preventDefault();
     const task = e.target.value;
     const currHalfTask = currTasks.halfTask;
     const taskObj = { halfTask: currHalfTask, fullTask: task };
     setCurrTasks(taskObj);
+  };
+
+  const updateConsistency = (key, day, value) => {
+    console.log("key: ", key)
+    console.log("day: ", day)
+    console.log("value: ", value)
+    let newTasks = tasks.slice();
+    const today = new Date();
+    const currDay = today.getDay();
+    console.log("currDay: ", currDay)
+    if (day >= 0 && day <= 5) {
+      if (currDay !== day + 1) {
+        return;
+      }
+    } else if (day === 6) {
+      if (currDay !== 0) {
+        return;
+      }
+    }
+    setShowSlider(true)
+    // setSelectedValue(value)
   };
 
   const switchOverlay = () => {
@@ -156,7 +151,8 @@ function Home(props) {
   }
 
   taskItems = Object.keys(taskItemsBySection).map((section) => {
-    const sectionTasks = taskItemsBySection[section].map((elem, taskIndex) => {
+    const sectionTasks = taskItemsBySection[section].map((elem, index) => {
+
       return (
         <div className="task-item-container" key={elem.id}>
           <div className="task-item">
@@ -190,26 +186,26 @@ function Home(props) {
               }}
               defaultValue={elem.fullTask}
             />
-            {elem.consistency.map((day, dayIndex) => (
-              <div className="circle-container" key={dayIndex}>
+            {elem.consistency.map((day, ind) => (
+              <div className="circle-container" key={ind}>
                 <div
                   className="circle"
-                  style={{ borderColor: calculateBorderColor(selectedValue) }}
-                  onClick={() => handleCircleClick(taskIndex, dayIndex, 1)}>
-                  <span className="circle-value" data-value={selectedValue}>
-                    {selectedValue}
-                    </span>
+                  style={{ borderColor: calculateBorderColor(selectedValues[elem.id]) }}
+                  onClick={() => updateConsistency(elem.id, ind, selectedValues[elem.id])}>
+                  <span className="circle-value" data-value={selectedValues[elem.id]}>{selectedValues[elem.id]}</span>
                 </div>
-                {showSlider && selectedTaskIndex === taskIndex && selectedDayIndex === dayIndex && 1 === selectedCircleIndex ? (
+                {showSlider ? (
                   <div className="slider-container">
                     <Slider
-                      value={selectedValue}
+                      value={selectedValues[elem.id]}
                       min={0}
                       max={10}
-                      onChange={handleSliderChange}
                       onAfterChange={(value) => {
-                        setSelectedValue(value);
+                        updateConsistency(elem.id, ind, value);
                         setShowSlider(false);
+                        const newSelectedValues = [...selectedValues];
+                        newSelectedValues[elem.id] = value;
+                        setSelectedValues(newSelectedValues);
                       }}
                       className="slider"
                       thumbClassName="slider-thumb"
