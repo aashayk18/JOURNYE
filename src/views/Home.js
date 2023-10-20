@@ -79,6 +79,14 @@ function Home(props) {
     setButtonState(!isActive);
   };
 
+  const changeHalfTask = (e) => {
+    e.preventDefault();
+    const task = e.target.value;
+    const currFullTask = currTasks.fullTask;
+    const taskObj = { halfTask: task, fullTask: currFullTask };
+    setCurrTasks(taskObj);
+  };
+
   const changeFullTask = (e) => {
     e.preventDefault();
     const task = e.target.value;
@@ -171,7 +179,7 @@ function Home(props) {
             <input
               maxLength={20}
               className="task-name"
-              placeholder="Enter progress here"
+              placeholder="Enter expectation here"
               onChange={(e) => {
                 editHalfTask(e.target.value, elem.id);
               }}
@@ -290,6 +298,9 @@ function Home(props) {
             Goal:
             <br></br>
             <input className="task-desc" onChange={changeFullTask} placeholder="Enter goal here"></input>
+            Expectation:
+            <br></br>
+            <input className="task-desc" onChange={changeHalfTask} placeholder="Enter expectation here"></input>
             <button className="add-button" onClick={addTask}>
               Add
             </button>
@@ -306,20 +317,20 @@ function Home(props) {
             <div className="heading">Info</div>
             <ul>
               <li>
-                The basic premise is that you have habits you want to track,
+                The core premise revolves around habits you want to track,
                 for which you set weekly goals.
               </li>
               <li>
-                Starting with each day, you set a goal and at the end of the
-                day you note down how much you were able to get done.
+                Starting with each week, you set a goal and your expected results
+                from the goal (like a self-set minimum requirement).
               </li>
               <li>
-                You also score yourself on a scale of 0-10 based on your level
-                of satisfaction in completing a particular goal.
+                You then score yourself everyday on a scale of 0-10 based on your 
+                level of satisfaction in meeting a particular goal.
               </li>
               <li>
-                Daily scores should be updated regularly as changes after the
-                day has passed are restricted.
+                Daily scores should be updated regularly as changes after 
+                the day has passed are restricted.
               </li>
               <li>Goals get reset on every Monday.</li>
             </ul>
