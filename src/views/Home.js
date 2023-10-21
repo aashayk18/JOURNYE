@@ -10,7 +10,7 @@ import Slider from "react-slider";
 function Home(props) {
   const [tasks, setTasks] = useState([]);
   const [isOverlay, setOverlay] = useState(false);
-  const [currTasks, setCurrTasks] = useState({ halfTask: "", fullTask: ""});
+  const [currTasks, setCurrTasks] = useState({ halfTask: "", fullTask: "" });
   const [isDel, setDel] = useState(false);
   const [week, setWeek] = useState();
   const [isInfo, setInfo] = useState(false);
@@ -20,6 +20,16 @@ function Home(props) {
   const [selectedValue, setSelectedValue] = useState(0);
   const [showSlider, setShowSlider] = useState(false);
   const [selectedValues, setSelectedValues] = useState(Array(tasks.length).fill(0));
+
+  useEffect(() => {
+    const storedSelectedValues = JSON.parse(localStorage.getItem('selectedValues'));
+    if (storedSelectedValues) {
+      setSelectedValues(storedSelectedValues);
+    } else {
+      // If no saved values are found, initialize with default values
+      setSelectedValues(Array(tasks.length).fill(0));
+    }
+  }, [tasks]);
 
   const addTask = () => {
     let newTasks = tasks.slice();
@@ -114,7 +124,13 @@ function Home(props) {
       }
     }
     setShowSlider(true)
-    // setSelectedValue(value)
+
+    const newSelectedValues = [...selectedValues];
+    newSelectedValues[key] = value;
+    setSelectedValues(newSelectedValues);
+
+    localStorage.setItem('selectedValues', JSON.stringify(newSelectedValues));
+
   };
 
   const switchOverlay = () => {
@@ -199,7 +215,7 @@ function Home(props) {
               <div className="circle-container" key={ind}>
                 <div
                   className="circle"
-                  style={{ borderColor: calculateBorderColor(selectedValues[elem.id]) }}
+                  style={{ borderColor: calculateBorderColor(selectedCircleIndex === ind ? selectedValues[elem.id] : "") }}
                   onClick={() => {
                     updateConsistency(elem.id, ind, selectedValues[elem.id]);
                     setSelectedCircleIndex(ind);
@@ -330,11 +346,11 @@ function Home(props) {
                 from the goal (like a self-set minimum requirement).
               </li>
               <li>
-                You then score yourself everyday on a scale of 0-10 based on your 
+                You then score yourself everyday on a scale of 0-10 based on your
                 level of satisfaction in meeting a particular goal.
               </li>
               <li>
-                Daily scores should be updated regularly as changes after 
+                Daily scores should be updated regularly as changes after
                 the day has passed are restricted.
               </li>
               <li>Goals get reset on every Monday.</li>
