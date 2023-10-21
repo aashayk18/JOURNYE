@@ -10,12 +10,12 @@ import Slider from "react-slider";
 function Home(props) {
   const [tasks, setTasks] = useState([]);
   const [isOverlay, setOverlay] = useState(false);
-  const [currTasks, setCurrTasks] = useState({ halfTask: "", fullTask: "" });
+  const [currTasks, setCurrTasks] = useState({ halfTask: "", fullTask: ""});
   const [isDel, setDel] = useState(false);
   const [week, setWeek] = useState();
   const [isInfo, setInfo] = useState(false);
   const [isActive, setButtonState] = useState(false);
-  const [selectedSection, setSelectedSection] = useState("");
+  // const [selectedSection, setSelectedSection] = useState("");
   const [selectedValue, setSelectedValue] = useState(0);
   const [showSlider, setShowSlider] = useState(false);
   const [selectedValues, setSelectedValues] = useState(Array(tasks.length).fill(0));
@@ -233,7 +233,7 @@ function Home(props) {
     });
     return (
       <div key={section}>
-        <div className="section-header">{selectedSection || section}</div>
+        <div className="section-header">{section}</div>
         {sectionTasks}
       </div>
     );
@@ -256,6 +256,7 @@ function Home(props) {
   const changeSection = (e) => {
     e.preventDefault();
     const section = e.target.value;
+    console.log(section)
     const taskObj = { ...currTasks, section };
     setCurrTasks(taskObj);
   }

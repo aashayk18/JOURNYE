@@ -50,7 +50,7 @@
 }
 
 .add {
-    height: 60%;
+    height: 40px;
     width: 10%;
     color: white;
     background-color: #155655;
@@ -65,7 +65,7 @@
 }
 
 .del {
-    height: 60%;
+    height: 40px;
     width: 10%;
     color: black;
     background-color: #fff;
