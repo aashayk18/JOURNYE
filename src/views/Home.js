@@ -15,6 +15,7 @@ function Home(props) {
   const [week, setWeek] = useState();
   const [isInfo, setInfo] = useState(false);
   const [isActive, setButtonState] = useState(false);
+  const [selectedCircleIndex, setSelectedCircleIndex] = useState(null);
   // const [selectedSection, setSelectedSection] = useState("");
   const [selectedValue, setSelectedValue] = useState(0);
   const [showSlider, setShowSlider] = useState(false);
@@ -199,8 +200,11 @@ function Home(props) {
                 <div
                   className="circle"
                   style={{ borderColor: calculateBorderColor(selectedValues[elem.id]) }}
-                  onClick={() => updateConsistency(elem.id, ind, selectedValues[elem.id])}>
-                  <span className="circle-value" data-value={selectedValues[elem.id]}>{selectedValues[elem.id]}</span>
+                  onClick={() => {
+                    updateConsistency(elem.id, ind, selectedValues[elem.id]);
+                    setSelectedCircleIndex(ind);
+                  }}>
+                  <span className="circle-value" data-value={selectedCircleIndex === ind ? selectedValues[elem.id] : ""}>{selectedCircleIndex === ind ? selectedValues[elem.id] : ""}</span>
                 </div>
                 {showSlider ? (
                   <div className="slider-container">
