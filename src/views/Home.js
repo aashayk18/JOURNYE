@@ -19,17 +19,7 @@ function Home(props) {
   // const [selectedSection, setSelectedSection] = useState("");
   const [selectedValue, setSelectedValue] = useState(0);
   const [showSlider, setShowSlider] = useState(false);
-  const [selectedValues, setSelectedValues] = useState(Array(tasks.length).fill(0));
-
-  useEffect(() => {
-    const storedSelectedValues = JSON.parse(localStorage.getItem('selectedValues'));
-    if (storedSelectedValues) {
-      setSelectedValues(storedSelectedValues);
-    } else {
-      // If no saved values are found, initialize with default values
-      setSelectedValues(Array(tasks.length).fill(0));
-    }
-  }, [tasks]);
+  const [selectedValues, setSelectedValues] = useState([]);
 
   const addTask = () => {
     let newTasks = tasks.slice();
@@ -124,13 +114,6 @@ function Home(props) {
       }
     }
     setShowSlider(true)
-
-    const newSelectedValues = [...selectedValues];
-    newSelectedValues[key] = value;
-    setSelectedValues(newSelectedValues);
-
-    localStorage.setItem('selectedValues', JSON.stringify(newSelectedValues));
-
   };
 
   const switchOverlay = () => {
@@ -162,6 +145,19 @@ function Home(props) {
       setTasks(val);
     });
   }, []);
+
+  useEffect(() => {
+    localforage.setItem('selectedValues', selectedValues).then(() => {
+      console.log('Selected Values saved to localforage:', selectedValues);
+    });
+  }, [selectedValues]);
+
+  useEffect(() => {
+    localforage.getItem('selectedValues').then((storedSelectedValues) => {
+      console.log('Selected Values retrieved from localforage:', storedSelectedValues);
+      setSelectedValues(storedSelectedValues);
+    });
+  }, [tasks]);
 
   let taskItems;
   let taskItemsBySection = {};
